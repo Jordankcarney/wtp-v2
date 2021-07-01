@@ -1,3 +1,4 @@
+const elmntGameContainer = document.getElementById(`gameContainer`);
 const elmntPokemonImage = document.getElementById(`pokemonImage`);
 const elmntGuesser = document.getElementById(`guesser`);
 const elmntScore = document.getElementById(`score`);
@@ -8,24 +9,43 @@ let lastPokemon;
 let nextPokemon;
 let score = 0;
 
-// Select initial Pokemon
+// Start the game by selecting an initial Pokemon
 selectNewPokemon();
 
-// Listen for correct answer
-elmntGuesser.addEventListener('input', () => {
-    if (elmntGuesser.value == selectedPokemonName) {
-        score++;
-        elmntScore.innerText = score;
-        elmntGuesser.value = null;
-        elmntPokemonImage.setAttribute('src', 'placeholder.gif');
+// Listen for answer and check if it is correct or incorrect
+elmntGuesser.addEventListener('keypress', (keypressEvent) => {
 
+    if (keypressEvent.key === "Enter") {
+
+        if (elmntGuesser.value == selectedPokemonName) {
+            
+            // Increase score if answer is right
+            score++;
+
+        } else {
+
+            // Reset score and shake screen if answer is wrong
+            score = 0;
+            failSequence();
+            setTimeout(failSequence, 300);
+        
+        }
+
+        // Set loading gif and disable input until pokemon is loaded, update score.
+        elmntPokemonImage.setAttribute('src', 'placeholder.gif');
+        elmntGuesser.toggleAttribute('disabled');
+        elmntGuesser.value = null;
+        elmntScore.innerText = score;
         selectNewPokemon();
+
     }
+
 });
 
 // Selects the new Pokemon
 function selectNewPokemon() {
 
+    // Wait at least 2 seconds before the image is displayed and input enabled so there is enough time to load.
     setTimeout(() => {
 
     // Decide which pokemon to based on the limit
@@ -37,8 +57,13 @@ function selectNewPokemon() {
         selectedPokemonName = pokemonData.name;
         console.log(selectedPokemonName);
     });
+
+    elmntGuesser.toggleAttribute('disabled');
+    elmntGuesser.focus();
+
     
     }, 2000)
+
 
     
 }
@@ -58,4 +83,11 @@ async function fetchPokemonData(pokemonID) {
 
     return pokemonData;
 
+}
+
+
+// Toggles classes for screenshake from the shaker css 
+function failSequence() {
+    elmntGameContainer.classList.toggle("shake-horizontal");
+    elmntGameContainer.classList.toggle("shake-constant");
 }
