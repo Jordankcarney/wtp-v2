@@ -1,0 +1,36 @@
+html, body {
+    padding: 0;
+    margin: 0;;
+}
+
+main {
+    text-align: center;
+}
+
+.top {
+    background: #CC343D;
+    position: relative;
+    height: 50vh;
+}
+
+.bottom {
+    background: white;
+    flex: 0;
+}
+
+#guesser {
+    outline: none;
+    border: 3px solid black;
+    padding: 5px;
+    margin-top: 1rem;
+    border-radius: 1em;
+    text-align: center;
+    font-weight: bold;
+}
+
+#pokemonImage {
+    position: absolute;
+    bottom: 0;
+    transform: translateX(-52.5%);
+
+}
