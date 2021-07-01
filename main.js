@@ -17,7 +17,7 @@ elmntGuesser.addEventListener('keypress', (keypressEvent) => {
 
     if (keypressEvent.key === "Enter") {
 
-        if (elmntGuesser.value == selectedPokemonName) {
+        if (elmntGuesser.value.toLowerCase() == selectedPokemonName) {
             
             // Increase score if answer is right
             score++;
